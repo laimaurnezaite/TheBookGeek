@@ -4,11 +4,6 @@ from flask import Flask, session
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-import requests
-
-
-res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "9eQBm4FHCMYVLteGZ5ePQ", "isbns": "9781632168146"})
-print(res.json())
 
 app = Flask(__name__)
 
