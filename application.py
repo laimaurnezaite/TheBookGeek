@@ -58,9 +58,15 @@ def render_search():
 
 @app.route("/search", methods=["POST"])
 def search():
-    # cur = conn.cursor()
     keyword = request.form.get("search").capitalize()
     cur.execute(f"SELECT * FROM books WHERE author LIKE '%{keyword}%' OR title LIKE '%{keyword}%' OR isbn LIKE '%{keyword}%'")
     rows = cur.fetchall()
+    if len(rows) == 0:
+        return render_template("apology.html", message="Sorry, no books found")
+    return render_template("search.html", rows=rows)
+
+@app.route("/book<int:isbn")
+def book(isbn):
+    cur.execute(f"SELECT * FROM books WHERE isbn = '{isbn}'")
+    rows = cur.fetchall()
     return render_template("book.html", rows=rows)
-    

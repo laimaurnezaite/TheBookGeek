@@ -4,9 +4,13 @@
        <title>Project 1: Books</title> 
     </head>
     <body>
-        <h1>SEARCHED BOOKS:</h1>
+        <h1>INFORMATION ABUT BOOK:</h1>
         {% for row in rows %}
-            <p>Search results: {{row}} </p>
+            <p>TITLE: {{row[1]}}</p>
+            <p>AUTHOR: {{row[2]}}</p>
+            <p>PUBLICATION YEAR: {{row[3]}}</p>
+            <p>ISBN: {{row[0]}}</p>
         {% endfor %}
+        
     </body>
 </html>
