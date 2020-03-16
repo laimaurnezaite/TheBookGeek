@@ -70,15 +70,20 @@ def render_book(isbn):
     if request.method == "GET":
         cur.execute(f"SELECT * FROM books WHERE isbn = '{isbn}'")
         book = cur.fetchall()
-        cur.execute(f"SELECT username, review FROM reviews_test INNER JOIN users_test ON users_test.id = reviews_test.user_id WHERE book_isbn = '{isbn}'")
+        cur.execute(f"SELECT username, review, rating FROM reviews_test2 INNER JOIN users_test ON users_test.id = reviews_test2.user_id WHERE book_isbn = '{isbn}'")
         reviews = cur.fetchall()
         return render_template("book.html", book=book, reviews=reviews)
 
 @app.route("/book/<string:isbn>", methods=["POST"])
 def review(isbn):
         review = request.form.get("review")
+        rating = request.form.get("rating")
         user_id=2
-        cur.execute(f"INSERT INTo reviews_test (user_id, book_isbn, review) VALUES ({user_id}, '{isbn}', '{review}')")
+        # cur.execute(f"INSERT INTO reviews_test2 (user_id, book_isbn, rating) VALUES ({user_id}, '{isbn}', {rating})")
+        if review == []:
+            cur.execute(f"INSERT INTO reviews_test2 (user_id, book_isbn, rating) VALUES ({user_id}, '{isbn}', {rating})")
+        else:
+            cur.execute(f"INSERT INTO reviews_test2 (user_id, book_isbn, review, rating) VALUES ({user_id}, '{isbn}', '{review}', {rating})")
         conn.commit()
         return redirect(f"/book/{isbn}")
 
