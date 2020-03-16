@@ -21,9 +21,6 @@ conn.commit()
 # for al in all:
 #     print(al)
 
-
-
-
 # Check for environment variable
 # if not os.getenv("DATABASE_URL"):
 #     raise RuntimeError("DATABASE_URL is not set")
@@ -46,7 +43,6 @@ conn.commit()
 # # commit the changes
 # db.session.commit()
 
- 
 
 @app.route("/")
 def index():
@@ -79,7 +75,11 @@ def review(isbn):
         review = request.form.get("review")
         rating = request.form.get("rating")
         user_id=2
-        # cur.execute(f"INSERT INTO reviews_test2 (user_id, book_isbn, rating) VALUES ({user_id}, '{isbn}', {rating})")
+        cur.execute(f"SELECT * FROM reviews_test2 WHERE user_id = {user_id} AND book_isbn = '{isbn}'")
+        results = cur.fetchall()
+        print(results)
+        if results != []:
+            return render_template("apology.html", message = "You have already submited review about this book")
         if review == []:
             cur.execute(f"INSERT INTO reviews_test2 (user_id, book_isbn, rating) VALUES ({user_id}, '{isbn}', {rating})")
         else:
