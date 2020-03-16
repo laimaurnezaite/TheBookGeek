@@ -7,7 +7,7 @@
         {% if rows %}
                 <h1>SEARCHED BOOKS:</h1>
                 {% for row in rows %}
-                    <a href="book.html/<int:{{row[0]}}>">Search results: Author: {{row[2]}}, title: {{row[1]}}, isbn:{{row[0]}}, year: {{row[3]}}</p>
+                    <a href="book/{{row[0]}}">Search results: Author: {{row[2]}}, title: {{row[1]}}, isbn:{{row[0]}}, year: {{row[3]}}</p>
                 {% endfor %}
         {% else %}
             <h1>SEARCH</h1>

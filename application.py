@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -65,8 +65,20 @@ def search():
         return render_template("apology.html", message="Sorry, no books found")
     return render_template("search.html", rows=rows)
 
-@app.route("/book<int:isbn")
-def book(isbn):
-    cur.execute(f"SELECT * FROM books WHERE isbn = '{isbn}'")
-    rows = cur.fetchall()
-    return render_template("book.html", rows=rows)
+@app.route("/book/<string:isbn>", methods=["GET"])
+def render_book(isbn):
+    if request.method == "GET":
+        cur.execute(f"SELECT * FROM books WHERE isbn = '{isbn}'")
+        book = cur.fetchall()
+        cur.execute(f"SELECT username, review FROM reviews_test INNER JOIN users_test ON users_test.id = reviews_test.user_id WHERE book_isbn = '{isbn}'")
+        reviews = cur.fetchall()
+        return render_template("book.html", book=book, reviews=reviews)
+
+@app.route("/book/<string:isbn>", methods=["POST"])
+def review(isbn):
+        review = request.form.get("review")
+        user_id=2
+        cur.execute(f"INSERT INTo reviews_test (user_id, book_isbn, review) VALUES ({user_id}, '{isbn}', '{review}')")
+        conn.commit()
+        return redirect(f"/book/{isbn}")
+
