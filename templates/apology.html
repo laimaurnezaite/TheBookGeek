@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-       <title>Project 1: Books</title> 
-    </head>
-    <body>
-        {{ message }}
-    </body>
-</html>
+
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <h5>{{ message }}</h5>
+    <p>Go to <a href="/">SEARCH</a></p>
+{% endblock %}
