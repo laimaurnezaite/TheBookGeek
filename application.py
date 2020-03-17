@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request, redirect
+from flask import Flask, session, render_template, request, redirect, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -68,8 +68,7 @@ def review(isbn):
 @app.route("/api/<string:isbn>", methods = ["GET"])
 def api(isbn):
     dict_of_book = get_information_about_book(isbn)
-    book_json = json.dumps(dict_of_book)
-    myJSON = JSON.stringify(myObj)
-    print(book_json)
-    print(type(book_json))
-    return render_template("api.html", json=myJSON)
+    print(type(dict_of_book))
+    if (len(dict_of_book)) != 6:
+        return jsonify({"error": "Sorry, no books found"}), 404
+    return jsonify(dict_of_book)
