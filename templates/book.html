@@ -1,38 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-       <title>Project 1: Books</title> 
-    </head>
-    <body>
-            <p>TITLE: {{book["title"]}}</p>
-            <p>AUTHOR: {{book["author"]}}</p>
-            <p>YEAR: {{book["year"]}}</p>
-            <p>ISBN: {{book["isbn"]}}</p>
-            <p>REVIEW COUNT: {{book["review_count"]}}</p>
-            <p>AVERAGE RATING: {{book["average_score"]}}</p>
+{% extends "layout.html" %}
 
-        <h2>Reviews from other users:</h2>
-        {% for review in reviews %}
-            <p>User {{review[0]}} says: {{review[1]}}</p>
-            <p>Rating: {{review[2]}}</p>
-        {% endfor %} 
+{% block main %}
+    <div class="book_page" > 
+        <h5>Information about book:</h5>
+        <p>Title: "{{book["title"]}}"</p>
+        <p>Author: {{book["author"]}}</p>
+        <p>Year: {{book["year"]}}</p>
+        <p>ISBN: {{book["isbn"]}}</p>
+        <p>Number of reviews: {{book["review_count"]}}</p>
+        <p>Average rating: {{book["average_score"]}}</p>
+    </div>
 
+    {% if reviews != [] %}
+        <div class="book_page">
+            <h5>Reviews from other users:</h5>
+            {% for review in reviews %}
+            <div id="user_review">
+                <p id="rating"> {{review[0]}} rated it {{review[2]}} of 5:</p>
+                <p>{{review[1]}}</p>
+            </div>
+            {% endfor %} 
+        </div>
+    {% else %}
+        <div class="book_page">
+            <h5>There are no reviews from users yet. Be the first one!</h5>
+        </div>
+    {% endif %}
 
-        <h2>What did you think about "{{book['title']}}"?</h2>
-        <h3>Please leave a review</h3>
+    
+    <div class="book_page">
+        <h4>What do you think about "{{book['title']}}"?</h4>
+        <h5>Please leave a review</h5>
         <form action="/book/{{book['isbn']}}" method="POST">
             <div>
-                <div>
-                    <input type="text" name="review" placeholder="Enter your review" autocomplete="off" style="width: 30%;" required>
-                </div>
-                <div>
-                    <input type="number" name="rating" placeholder="Enter your rating from 1 to 5" min="1" max="5" style="width: 30%;" required >
-                </div>
-                <div>
-                    <button type="submit">Submit</button>
-                </div>
+                <input class='review' type="text" name="review" placeholder="Enter your review" autocomplete="off" style="width: 50%; padding-bottom:50px; margin-bottom:10px;" required>
+            </div>
+            <div>
+                <input id='review' type="number" name="rating" placeholder="Enter your rating from 1 to 5" min="1" max="5" required >
+            </div>
+            <div>
+                <button type="submit">Submit</button>
             </div>
         </form>
+    </div>
+    
+{% endblock %}
+
+
+
+
+
+
+            
 
 
         
