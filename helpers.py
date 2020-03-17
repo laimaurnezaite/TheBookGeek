@@ -22,3 +22,9 @@ def get_information_about_book(isbn):
     dict_of_books["average_score"] = rows["books"][0]["average_rating"]
     
     return dict_of_books
+
+def check_if_available(username):
+    cur.execute(f"SELECT username FROM users WHERE username = '{username}'")
+    unavailable = cur.fetchall()
+    if unavailable != []:
+        return False

@@ -10,7 +10,8 @@ import requests
 import json
 
 
-from helpers import get_information_about_book
+from helpers import get_information_about_book, check_if_available
+from werkzeug import generate_password_hash
 
 app = Flask(__name__)
 
@@ -25,6 +26,24 @@ conn.commit()
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/form/register", methods=["GET"])
+def render_register():
+    return render_template("register.html")
+
+@app.route("/register", methods=["POST"])
+def register():
+    username = request.form.get("username")
+    if check_if_available(username) == False:
+        return render_template("apology.html", message = "Username is already taken")
+    password = request.form.get("password")
+    password_confirm = request.form.get("password_confirm")
+    # check if password matches
+    if password_confirm != password:
+            return render_template("apology.html", message = "Passwords don't match")
+    cur.execute(f"INSERT INTO users (username, hash) VALUES ('{username}', '{generate_password_hash(password)}')")
+    conn.commit()
+    return redirect("/") 
 
 @app.route("/form/search", methods=["GET"])
 def render_search():
@@ -41,27 +60,26 @@ def search():
 
 @app.route("/book/<string:isbn>", methods=["GET"])
 def render_book(isbn):
-    if request.method == "GET":
-        dict_of_book = get_information_about_book(isbn)
-        cur.execute(f"SELECT username, review, rating FROM reviews_test2 INNER JOIN users_test ON users_test.id = reviews_test2.user_id WHERE book_isbn = '{isbn}'")
-        reviews = cur.fetchall()
+    dict_of_book = get_information_about_book(isbn)
+    cur.execute(f"SELECT username, review, rating FROM reviews INNER JOIN users ON users_test.id = reviews.user_id WHERE book_isbn = '{isbn}'")
+    reviews = cur.fetchall()
 
-        return render_template("book.html", book=dict_of_book, reviews=reviews)
+    return render_template("book.html", book=dict_of_book, reviews=reviews)
 
 @app.route("/book/<string:isbn>", methods=["POST"])
 def review(isbn):
         review = request.form.get("review")
         rating = request.form.get("rating")
         user_id=2
-        cur.execute(f"SELECT * FROM reviews_test2 WHERE user_id = {user_id} AND book_isbn = '{isbn}'")
+        cur.execute(f"SELECT * FROM reviews WHERE user_id = {user_id} AND book_isbn = '{isbn}'")
         results = cur.fetchall()
         print(results)
         if results != []:
             return render_template("apology.html", message = "Sorry, you have already submited review about this book")
         if review == []:
-            cur.execute(f"INSERT INTO reviews_test2 (user_id, book_isbn, rating) VALUES ({user_id}, '{isbn}', {rating})")
+            cur.execute(f"INSERT INTO reviews (user_id, book_isbn, rating) VALUES ({user_id}, '{isbn}', {rating})")
         else:
-            cur.execute(f"INSERT INTO reviews_test2 (user_id, book_isbn, review, rating) VALUES ({user_id}, '{isbn}', '{review}', {rating})")
+            cur.execute(f"INSERT INTO reviews (user_id, book_isbn, review, rating) VALUES ({user_id}, '{isbn}', '{review}', {rating})")
         conn.commit()
         return redirect(f"/book/{isbn}")
 
