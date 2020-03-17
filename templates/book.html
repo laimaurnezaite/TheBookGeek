@@ -4,21 +4,23 @@
        <title>Project 1: Books</title> 
     </head>
     <body>
-        <h1>INFORMATION ABOUT BOOK:</h1>
-        {% for info in book %}
-            <p>TITLE: {{info[1]}}</p>
-            <p>AUTHOR: {{info[2]}}</p>
-            <p>PUBLICATION YEAR: {{info[3]}}</p>
-            <p>ISBN: {{info[0]}}</p>
-        {% endfor %}
+            <p>TITLE: {{book["title"]}}</p>
+            <p>AUTHOR: {{book["author"]}}</p>
+            <p>YEAR: {{book["year"]}}</p>
+            <p>ISBN: {{book["isbn"]}}</p>
+            <p>REVIEW COUNT: {{book["review_count"]}}</p>
+            <p>AVERAGE RATING: {{book["average_score"]}}</p>
+
         <h2>Reviews from other users:</h2>
         {% for review in reviews %}
             <p>User {{review[0]}} says: {{review[1]}}</p>
             <p>Rating: {{review[2]}}</p>
         {% endfor %} 
-        <h2>What did you think about "{{book[0][1]}}"?</h2>
+
+
+        <h2>What did you think about "{{book['title']}}"?</h2>
         <h3>Please leave a review</h3>
-        <form action="/book/{{book[0][0]}}" method="POST">
+        <form action="/book/{{book['isbn']}}" method="POST">
             <div>
                 <div>
                     <input type="text" name="review" placeholder="Enter your review" autocomplete="off" style="width: 30%;" required>
@@ -31,5 +33,8 @@
                 </div>
             </div>
         </form>
+
+
+        
     </body>
 </html>
