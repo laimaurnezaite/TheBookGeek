@@ -57,7 +57,7 @@ def review(isbn):
         results = cur.fetchall()
         print(results)
         if results != []:
-            return render_template("apology.html", message = "You have already submited review about this book")
+            return render_template("apology.html", message = "Sorry, you have already submited review about this book")
         if review == []:
             cur.execute(f"INSERT INTO reviews_test2 (user_id, book_isbn, rating) VALUES ({user_id}, '{isbn}', {rating})")
         else:
