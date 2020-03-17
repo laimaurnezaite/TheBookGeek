@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-       <title>Project 1: Books</title> 
-    </head>
-    <body>
-        <h1>SEARCH</h1>
-        <form action="/search" method="POST">
-            <div class="d-flex justify-content-center">
-                <div class="d-flex flex-column bd-highlight mb-3">
-                    <input class="p-2 bd-highlight" type="text" name="search" placeholder="Enter ISBN number, title or author" autocomplete="off" style="width: 30%;" required>
-                    <button type="submit" class="text-center p-2 bd-highlight">Search</button>
-                </div>
-            </div>
-        </form>
-    </body>
-</html>
+{% extends "layout.html" %}
+
+{% block main %}
+    <p>Search for a book</p>
+    <form action="/search" method="POST">
+        <div id="search_box" class="d-flex justify-content-center">
+            <input id="search_input" class="p-2 bd-highlight" type="text" name="search" placeholder="Enter ISBN number, title or author" autocomplete="off" required>
+            <button id="search_button" type="submit" class="text-center p-2 bd-highlight">Search</button>
+        </div>
+    </form>
+{% endblock %}
