@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-       <title>Project 1: Books</title> 
-    </head>
-    <body>
-        {% if rows %}
-                <h1>SEARCHED BOOKS:</h1>
-                {% for row in rows %}
-                    <a href="book/{{row[0]}}">Search results: Author: {{row[2]}}, title: {{row[1]}}, isbn:{{row[0]}}, year: {{row[3]}}</p>
-                {% endfor %}
-        {% else %}
-            <h1>SEARCH</h1>
-            <form action="/search" method="POST">
-                <div class="d-flex justify-content-center">
-                    <div class="d-flex flex-column bd-highlight mb-3">
-                        <input class="p-2 bd-highlight" type="text" name="search" placeholder="Enter ISBN number, title or author" autocomplete="off" style="width: 30%;" required>
-                        <button type="submit" class="text-center p-2 bd-highlight">Search</button>
-                    </div>
-                </div>
-            </form>
-        {% endif %}
-        <p> TEST</p>
-    </body>
-</html>
+{% extends "layout.html" %}
+
+{% block main %}
+<div id='search_results'>
+    <p>SEARCH RESULTS:</p>
+        {% for row in rows %}
+        <ul>
+            <li> <a href="book/{{row[0]}}">"{{row[1]}}" by {{row[2]}},</a> published in {{row[3]}}, ISBN number: {{row[0]}}</li>
+        </ul>
+        {% endfor %}
+</div>
+{% endblock %}
