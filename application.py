@@ -6,6 +6,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
+import requests
+import json
+
+
+from helpers import get_information_about_book
 
 app = Flask(__name__)
 
@@ -16,33 +21,6 @@ cur.execute("""CREATE TABLE IF NOT EXISTS books (isbn VARCHAR(255) NOT NULL PRIM
 cur.execute("""CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name VARCHAR(255) NOT NULL, username VARCHAR(255) NOT NULL, hash VARCHAR(255) NOT NULL)""")
 cur.execute("""CREATE TABLE IF NOT EXISTS reviews (user_id INTEGER, book_isbn VARCHAR(255), review VARCHAR NOT NULL, FOREIGN KEY (user_id) REFERENCES users (id), FOREIGN KEY (book_isbn) REFERENCES books (isbn))""")
 conn.commit()
-
-# all = cur.fetchall()
-# for al in all:
-#     print(al)
-
-# Check for environment variable
-# if not os.getenv("DATABASE_URL"):
-#     raise RuntimeError("DATABASE_URL is not set")
-
-# # Configure session to use filesystem
-# app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# app.config["SESSION_PERMANENT"] = False
-# app.config["SESSION_TYPE"] = "filesystem"
-
-# db = SQLAlchemy()
-# # db.init_app(app)
-
-# Session(app)
-
-# # Set up database
-# engine = create_engine(os.getenv("DATABASE_URL"))
-# db = scoped_session(sessionmaker(bind=engine))
-
-# # commit the changes
-# db.session.commit()
-
 
 @app.route("/")
 def index():
@@ -64,11 +42,11 @@ def search():
 @app.route("/book/<string:isbn>", methods=["GET"])
 def render_book(isbn):
     if request.method == "GET":
-        cur.execute(f"SELECT * FROM books WHERE isbn = '{isbn}'")
-        book = cur.fetchall()
+        dict_of_book = get_information_about_book(isbn)
         cur.execute(f"SELECT username, review, rating FROM reviews_test2 INNER JOIN users_test ON users_test.id = reviews_test2.user_id WHERE book_isbn = '{isbn}'")
         reviews = cur.fetchall()
-        return render_template("book.html", book=book, reviews=reviews)
+
+        return render_template("book.html", book=dict_of_book, reviews=reviews)
 
 @app.route("/book/<string:isbn>", methods=["POST"])
 def review(isbn):
@@ -87,3 +65,11 @@ def review(isbn):
         conn.commit()
         return redirect(f"/book/{isbn}")
 
+@app.route("/api/<string:isbn>", methods = ["GET"])
+def api(isbn):
+    dict_of_book = get_information_about_book(isbn)
+    book_json = json.dumps(dict_of_book)
+    myJSON = JSON.stringify(myObj)
+    print(book_json)
+    print(type(book_json))
+    return render_template("api.html", json=myJSON)

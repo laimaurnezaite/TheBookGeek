@@ -1,4 +1,10 @@
+import os
+import psycopg2
+import requests
 
+
+conn = psycopg2.connect("host=ec2-54-195-247-108.eu-west-1.compute.amazonaws.com dbname=d42brirmi57g69 user=spkjihodrgivbo password=294af7e391fe62ee8e56cbd8d7cf3561061af319f9ee8b6a8230a203fa79426c")
+cur = conn.cursor()
 
 def get_information_about_book(isbn):
     dict_of_books = {}
@@ -12,8 +18,7 @@ def get_information_about_book(isbn):
 
     api_key=os.getenv("API_KEY")
     rows = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": api_key, "isbns": isbn}).json()
-    for row in rows:
-        dict_of_books["review_count"] = row["books"][0]["work_ratings_count"]
-        dict_of_books["average_score"] = row["books"][0]["average_rating"]
-
+    dict_of_books["review_count"] = rows["books"][0]["work_ratings_count"]
+    dict_of_books["average_score"] = rows["books"][0]["average_rating"]
+    
     return dict_of_books
