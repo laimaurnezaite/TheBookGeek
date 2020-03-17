@@ -13,13 +13,11 @@
             body {
                 background-image: url(/static/images/books.jpg)
             }
-            #logout_button {
-                margin-left:700px; 
-                margin-right:10px; 
-                margin-top:10px; 
-                background-color: #ffffff; 
-                opacity: 0.6; 
-                width:4,5%
+          
+            #menu {
+                margin: 10px;
+                opacity: 0.6;
+                width: 100px; 
             }
             .transbox {
                 text-align: center; 
@@ -28,7 +26,8 @@
                 width: 100%; 
                 border: 1px solid black; 
                 opacity: 0.6; 
-                height: auto"
+                height: auto;
+                min-height: 400px;
             }
             #logo {
                 font-size: 30px; 
@@ -58,13 +57,17 @@
             a:hover {
                 text-decoration: underline;
             }
+            h5 {
+                padding-bottom:30px;
+            }
 
         </style>
     </head>
     <body>
         <div class="d-flex justify-content-end">
             <div id="logout_button" class="d-flex justify-content-end">
-                <button type="button" id="menu" class="p-2 bd-highlight" onclick='window.location.href = "/logout";'>Log out</button>   
+                <button type="button" id="menu" class="p-2 bd-highlight" onclick='window.location.href = "/";'>Home</button> 
+                <button type="button" id="menu" class="p-2 bd-highlight" onclick='window.location.href = "/logout";'>Log out</button> 
             </div>
         </div>
         <div class="center">
