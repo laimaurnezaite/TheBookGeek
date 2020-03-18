@@ -1,12 +1,13 @@
 import os
-import psycopg2
 import requests
-from flask import redirect, session
+from flask import redirect, session, render_template
 from functools import wraps
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
-
-conn = psycopg2.connect("host=ec2-54-195-247-108.eu-west-1.compute.amazonaws.com dbname=d42brirmi57g69 user=spkjihodrgivbo password=294af7e391fe62ee8e56cbd8d7cf3561061af319f9ee8b6a8230a203fa79426c")
-cur = conn.cursor()
+# Set up database
+engine = create_engine(os.getenv("DATABASE_URL"))
+db = scoped_session(sessionmaker(bind=engine))
 
 def login_required(f):
     """
@@ -23,8 +24,7 @@ def login_required(f):
     
 def get_information_about_book(isbn):
     dict_of_books = {}
-    cur.execute(f"SELECT * FROM books WHERE isbn = '{isbn}'")
-    books = cur.fetchall()
+    books = db.execute(f"SELECT * FROM books WHERE isbn = '{isbn}'")
     for book in books:
         dict_of_books["title"] = book[1]
         dict_of_books["author"] = book[2]
@@ -39,7 +39,7 @@ def get_information_about_book(isbn):
     return dict_of_books
 
 def check_if_available(username):
-    cur.execute(f"SELECT username FROM users WHERE username = '{username}'")
-    unavailable = cur.fetchall()
-    if unavailable != []:
+    unavailable = db.execute(f"SELECT COUNT (username) FROM users WHERE username = '{username}'")
+    result = unavailable.fetchone()
+    if result[0] != 0:
         return False
