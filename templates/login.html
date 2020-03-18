@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <p></p>
+    <form action="/login" method="POST">
+        <div class="d-flex justify-content-center flex-column" >
+            <div>
+                <input  class="p-2 bd-highlight" type="text" name="username" placeholder="Username" autocomplete="off" required>
+            </div>
+            <div>
+                <input  class="p-2 bd-highlight" type="password" name="password" placeholder="Password" autocomplete="off" required>
+            </div>
+            <div>
+                <button  type="submit" class="text-center p-2 bd-highlight">Log in</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

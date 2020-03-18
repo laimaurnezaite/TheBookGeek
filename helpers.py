@@ -1,11 +1,26 @@
 import os
 import psycopg2
 import requests
+from flask import redirect, session
+from functools import wraps
 
 
 conn = psycopg2.connect("host=ec2-54-195-247-108.eu-west-1.compute.amazonaws.com dbname=d42brirmi57g69 user=spkjihodrgivbo password=294af7e391fe62ee8e56cbd8d7cf3561061af319f9ee8b6a8230a203fa79426c")
 cur = conn.cursor()
 
+def login_required(f):
+    """
+    Decorate routes to require login.
+
+    http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/form/login")
+        return f(*args, **kwargs)
+    return decorated_function
+    
 def get_information_about_book(isbn):
     dict_of_books = {}
     cur.execute(f"SELECT * FROM books WHERE isbn = '{isbn}'")
