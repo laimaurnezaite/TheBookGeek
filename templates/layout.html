@@ -5,94 +5,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-        <!-- <link href="/static/style.css" rel="stylesheet"> -->
+        <link href="/static/styles.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-        <style>
-            body {
-                background-image: url(/static/images/books.jpg)
-            }
-            input {
-                margin-bottom: 10px;
-            }
-          
-            #menu {
-                margin: 10px;
-                opacity: 0.6;
-                width: 100px; 
-            }
-            .transbox {
-                text-align: center; 
-                background-color: #ffffff; 
-                margin-top:1%; 
-                width: 100%; 
-                border: 1px solid black; 
-                opacity: 0.6; 
-                height: auto;
-                min-height: 400px;
-            }
-            #logo {
-                font-size: 30px; 
-                padding: 15px;
-            }
-            #search_box {
-                padding-bottom: 4%;
-            }
-            #search_input {
-                margin-left: 10px; 
-                padding-bottom:100px;
-                width: 40%;
-            }
-            #search_button {
-                margin-left: 10px; 
-                padding-bottom:100px;
-            }
-            #search_results {
-                text-align: left; 
-                margin:2%;
-            }
-            a:link, a:visited {
-                color:black;
-                font-weight: bold;
-                
-            }
-            a:hover {
-                text-decoration: underline;
-            }
-            h5 {
-                padding-bottom:20px;
-            }
-            #rating {
-                font-weight: bold;
-            }
-            #user_review {
-                border: 1px solid black; 
-                padding:10px;
-            }
-            .book_page {
-                text-align: left; 
-                margin:2%;
-            }
-            .review {
-                width: 50%; 
-                padding-bottom:50px; 
-                margin-bottom:10px;
-                border: 1px solid black; 
-            }
-            #review {
-                width: 50%; 
-                margin-bottom:10px;
-                border: 1px solid black; 
-            }
-            p {
-                font-size: 17px;
-            }
-
-        </style>
     </head>
     <body>
-        
         <div class="d-flex justify-content-end">
             <div id="logout_button" class="d-flex justify-content-end">
                 {% if session.user_id %}
