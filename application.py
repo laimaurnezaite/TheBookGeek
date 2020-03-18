@@ -2,17 +2,13 @@ import os
 
 from flask import Flask, session, render_template, request, redirect, jsonify
 from flask_session import Session
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 import requests
 import json
-
-
+from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import get_information_about_book, check_if_available, login_required
-from werkzeug import check_password_hash, generate_password_hash
 from tempfile import mkdtemp
+
 
 app = Flask(__name__)
 
@@ -59,13 +55,11 @@ def login():
     return redirect("/")
 
 
-
 @app.route("/form/register", methods=["GET"])
 def render_register():
     return render_template("register.html")
 
 @app.route("/register", methods=["POST"])
-@login_required
 def register():
     username = request.form.get("username")
     if check_if_available(username) == False:
