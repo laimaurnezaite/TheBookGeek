@@ -92,12 +92,18 @@
         </style>
     </head>
     <body>
+        
         <div class="d-flex justify-content-end">
             <div id="logout_button" class="d-flex justify-content-end">
+                {% if session.user_id %}
                 <button type="button" id="menu" class="p-2 bd-highlight" onclick='window.location.href = "/";'>Home</button> 
                 <button type="button" id="menu" class="p-2 bd-highlight" onclick='window.location.href = "/logout";'>Log out</button> 
+                {% else %}
+                    <button type="button" id="menu" class="p-2 bd-highlight" onclick='window.location.href = "/form/register";'>Register</button> 
+                {% endif %}
             </div>
         </div>
+        
         <div class="center">
             <div class="transbox">
                     <p id="logo">The Book Geek</p>
@@ -106,3 +112,4 @@
         </div>
     </body>
 </html>
+
