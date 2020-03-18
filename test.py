@@ -22,5 +22,8 @@ isbn = '0060852577'
 # print(response["books"][0]["average_rating"])
 
 
-response = {"title": "The Bone Bed", "author": "Patricia Cornwell", "year": 2012, "isbn": "0399157565", "review_count": 20433, "average_score": "3.68"}
-print(len(response))
+# response = {"title": "The Bone Bed", "author": "Patricia Cornwell", "year": 2012, "isbn": "0399157565", "review_count": 20433, "average_score": "3.68"}
+# print(len(response))
+
+response = [(1, 'test1', 'pbkdf2:sha256:150000$91StbfaR$4b300d4cfde03d6145435657559d81fe0cb14ec5189d5bb3a5495ab80b98e7e1')]
+print(response[0][2])
