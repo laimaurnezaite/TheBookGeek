@@ -1,6 +1,6 @@
 import os
 import requests
-from flask import redirect, session, render_template
+from flask import redirect, session
 from functools import wraps
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
